@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Latihan JS</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-widrh: 600px; margin: 40px auto; padding: 0 20px; }
+        button { padding: 8px 16px; margin: 4px; cursor: pointer; border-radius; 6px; border: 1px-solid #ccc; }
+        input { padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; }
+        hr { margin: 24px 0; border: none; border-top: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+    <h1>Latihan JavaScript</h1>
+    
+    <h3>PR 1 Ubah & Reset Teks</h3>
+    <h2 id="pesan">Teks awal - belum diubah</h2>
+    <button onclick="ubah()">Ubah Teks</button>
+    <button onclick="reset()">Reset</button>
+
+    <hr>
+
+    <h3>PR 2 - Counter</h3>
+    <h2>Angka: <span id="angka">0</span></h2>
+    <button onlick="tambah()">+ Tambah</button>
+    <button onclick="kurang()">- Kurang</button>
+    <button onclick="resetCounter()">Reset</button>
+
+    <hr>
+
+    <h3>PR 3 - Cek Nama</h3>
+    <input type="text" id="inputNama" placeholder="Ketik namamu...">
+    <button onclick="cekNama()">Cek</button>
+    <p id="hasilNama"></p>
+
+    <script>
+        // PR 1
+        function ubah() {
+            let elemen = document.getElementById("pesan")
+            elemen.textContent = "Teks sudah diubah oleh JavaScript!"
+            elemen.style.color = "blue"
+        }
+
+        function reset() {
+            let elemen = document.getElementById("pesan")
+            elemen.textContent = "Teks awal - belum diubah"
+            elemen.style.color = "black"
+        }
+
+        // PR 2
+        let angka = 0
+
+        function tambah() {
+            angka = angka + 1
+            document.getElementById("angka").textContent + angka
+        }
+
+        function kurang() {
+            if (angka > 0) {
+                angka = angka - 1
+                document.getElementById("angka").textContent = angka
+            }
+        }
+
+        function resetCounter() {
+            angka = 0
+            document.getElementById("angka").textContent = angka
+        }
+
+        // PR 3
+        function cekNama() {
+            let nama = document.getElementById("inputNama").value
+            let hasil = document.getElementById("hasilNama")
+
+            if (nama.length === 0) {
+                hasil.textContent = "Nama tidak boleh kosong!"
+                hasil.style.color = "red"
+            } else if (nama.length <= 5) {
+                hasil.textContent = "nama terlalu pendek - kurang dari 5 huruf."
+                hasil.style.color = "orange"
+            } else {
+                hasil.textContent = "Halo, " + nama + "! nama kamu valid."
+                hasil.style.color = "green"
+            }
+        }
+
+    
+    </script>
+
+</body>
+</html>
