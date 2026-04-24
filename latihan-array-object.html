@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar User</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        .cards { border: 1px solid #ddd; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+        .cards h3 { margin: 0 0 6px; color: #2c3e50; }
+        .cards p { margin: 0; color: #666; font-size: 14px; }
+        button {
+            background-color: #3498db; 
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        button:hover { background-color: #2980b9; }
+    </style>
+</head>
+<body>
+
+    <h1>Daftar User</h1>
+
+    <button id="addUserBtn">Tambah User</button>
+
+    <button id="hapusTerakhirBtn">Hapus terakhir</button>
+
+    <div id="container"></div>
+
+    <script>
+        let users = [
+            { nama: "Dzikri",   umur: 20, kota: "Jakarta",  skill: "kaligrafi" },
+            { nama: "Budi",     umur: 25, kota: "Jakarta",  skill: "Lukis" },
+            { nama: "Sari",     umur: 22, kota: "Surabaya", skill: "Pidato" },
+        ]
+
+        let container = document.getElementById("container")
+
+        // Fungsi untuk merender user ke dalam container
+        function renderUser(user) {
+           let cardEl = document.createElement("div")
+           cardEl.className = "cards"
+           cardEl.innerHTML = `
+                <h3>${user.nama}</h3>
+                <p>Umur:  ${user.umur} tahun</p>
+                <p>Kota:  ${user.kota}</p>
+                <p>Skill: ${user.skill}</p>
+            `
+            container.appendChild(cardEl)
+        }
+        // Tampilkan data awal
+        users.forEach(renderUser)
+
+        // Tombol Tambah
+        document.getElementById("addUserBtn").addEventListener("click", function() {
+            let namaBaru = prompt("Masukkan nama:")
+            let kotaBaru = prompt("Masukkan kota:")
+            let umurBaru = prompt("Masukkan umur:")
+            let skillBaru = prompt("Masukkan skill:")
+
+            // Validasi sedarhana: pastikan input tidak kosong
+            if (namaBaru && kotaBaru) {
+                let userBaru = {
+                    nama: namaBaru,
+                    umur: umurBaru || "?", // Default jika kosong
+                    kota: kotaBaru,
+                    skill: skillBaru || "-"
+                }
+            
+
+            // Tambahkan ke array (opsional, tapi bagus untuk data)
+            users.push(userBaru)
+
+            //Langsung tampilkan cards baru di halaman
+            renderUser(userBaru)
+            } else {
+                alert("Nama dan Kota harus diisi ya!")
+            }
+        })
+
+        document.getElementById("hapusTerakhirBtn").addEventListener("click", function() {
+            let semuaCards = container.querySelectorAll(".cards")
+            if (semuaCards.length > 0) {
+                semuaCards[semuaCards.length - 1].remove()
+              users.pop()
+            } else {
+                alert("Tidak ada user yang bisa dihapus!")
+            }
+        })
+    </script>
+
+
+</body>
+</html>
