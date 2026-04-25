@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Latihan Fetch</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 14px; margin-bottom: 10px}
+        .card h3 { margin: 0 0 4px; color: #2c3e50; }
+        .card p { margin: 0; color: #666;font-size: 14px; }
+        button { background: #3498db; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 15px; }
+        button.hover { background: #2980b9; }
+        #status { margin: 12px 0; font-size: 14px; color: #888; }
+    </style>
+</head>
+<body>
+
+    <h1>Data dari Internet</h1>
+    <button onclick="ambilData()">Ambil Data</button>
+    <button id="muatUlang">Muat Ulang</button>
+    <p id="status"></p>
+    <div id="container"></div>
+
+    <script>
+      async function ambilData() {
+        try {
+          // Semua kode yang mungkin gagal ada di sini
+          document.getElementById("status").textContent = "Sedang mengambil data..."
+
+          let response = await fetch("https://jsonplaceholder.typicode.com/users")
+          let data = await response.json()
+
+          // 1. Kasih tahu user data sedang dimuat
+          document.getElementById("status").textContent = data.length + " user berhasil dimuat!"
+
+          // 6. Tampilkan ke halaman
+          let container = document.getElementById("container")
+          container.innerHTML = ""
+
+          data.forEach(function(user) {
+            let card = document.createElement("div")
+            card.className = "card"
+            card.innerHTML = `
+              <h3>${user.name}</h3>
+              <p>Email: ${user.email}</p>
+              <p>Kota: ${user.address.city}</p>
+              <p>Perusahaan: ${user.company.name}</p>
+              <p>Ponsel: ${user.phone}</p>
+              <p>Website: ${user.website}</p>
+            `
+            container.appendChild(card)
+
+        })
+
+      } catch (error) {
+        // Kalau ada yang gagal di dalam try, langsung lompat ke sini
+        document.getElementById("status").textContent = "Gagal mengambil data, coba lagi!"
+        document.getElementById("status").style.color = "red"
+        console.log("Error:", error)
+        }   
+      }
+      
+      document.getElementById("muatUlang").addEventListener("click", function() {
+          document.getElementById("container").innerHTML = ""
+          document.getElementById("status").textContent = ""
+          ambilData()
+      })
+
+    </script>
+
+</body>
+</html>
