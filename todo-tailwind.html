@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+    <div class="max-w-lg mx-auto mt-16 px-4">
+
+        <!-- Header -->
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">📝 Todo App</h1>
+        <p class="text-gray-400 text-sm mb-8">Catat tugasmu, selesaikan satu per satu.</p>
+
+        <!-- Input -->
+        <div class="flex gap-3 mb-8">
+            <input
+                type="text"
+                id="inputTugas"
+                placeholder="Tambahkan tugas baru..."
+                class="flex-1 px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm outline-none focus:ring-2 focus:ring-blue-400 transition"
+            >
+            <button
+                id="tambahTugas"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-5 py-3 rounded-xl transition text-sm"
+            >
+                + Tambah
+            </button>
+        </div>
+
+        <!-- Counter -->
+        <div class="flex justify-between items-center mb-4">
+            <p class="text-sm text-gray-400">
+                Total tugas: <span id="counter" class="font-semibold text-gray-600">0</span>
+            </p>
+            <button
+                id="hapusSemua"
+                class="text-xs text-red-400 hover:text-red-600 transition"
+            >
+                Hapus semua        
+            </button>
+        </div>
+
+        <!-- Daftar Tugas -->
+        <div id="container" class="flex flex-col gap-3"></div>
+
+        <!-- Pesan kalau kosong -->
+        <div  id="pesanKosong" class="text-center py-16 text-gray-300">
+            <p class="text-5xl mb-4">📭</p>
+            <p class="text-sm">Belum ada tugas. Tambahkan sekarang!</p>
+        </div>
+
+    </div>
+
+    <script>
+        let todos = []
+
+        // Update counter dan pesan kosong
+        function updateUI() {
+            document.getElementById("counter").textContent = todos.length
+            document.getElementById("pesanKosong").style.display =
+                todos.length === 0 ? "block" : "none"
+        }
+
+        // Render satu todo
+        function renderTodo(todo) {
+            let card = document.createElement("div")
+            card.className = "flex items-center justify-between bg-white px-5 py-4 rounded-xl shadow-sm border border-gray-100"
+            card.innerHTML = `
+                <p class="text-gray-700 text-sm flex-1">${todo.tugas}</p>
+            `
+
+            // Tombol hapus
+            let hapusBtn = document.createElement("button")
+            hapusBtn.textContent = "Hapus"
+            hapusBtn.className = "ml-4 text-xs text-red-400 hover:text-red-600 font-medium transition"
+
+            hapusBtn.addEventListener("click", function() {
+                card.remove()
+                todos.splice(todos.indexOf(todo), 1)
+                updateUI()
+            })
+
+            card.appendChild(hapusBtn)
+            document.getElementById("container").appendChild(card)
+        }
+
+        // Tambah tugas
+        function tambahTugas() {
+            let input = document.getElementById("inputTugas")
+            let teks = input.value.trim()
+
+            if (teks) {
+                let todo = { tugas: teks }
+                todos.push(todo)
+                renderTodo(todo)
+                input.value = ""
+                input.focus()
+                updateUI()
+            } else {
+                // Shake animation kalau kosong
+                input.classList.add("ring-2", "ring-red-400")
+                setTimeout(() => {
+                    input.classList.remove("ring-2", "ring-red-400")
+                }, 1000)
+            }
+        }
+
+        // Hapus semua
+        document.getElementById("hapusSemua").addEventListener("click", function() {
+            if (todos.length === 0) return
+            if (confirm("Hapus semua tugas?")) {
+                document.getElementById("container").innerHTML = ""
+                todos = []
+                updateUI()
+            }
+        })
+
+        // Event listener
+        document.getElementById("tambahTugas").addEventListener("click", tambahTugas)
+
+        document.getElementById("inputTugas").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") tambahTugas()
+        })
+    
+        // Inisialisasi
+        updateUI()
+    </script>
+
+</body>
+</html>
