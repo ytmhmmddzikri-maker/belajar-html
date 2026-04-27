@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplikasi Todo</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        .cards { border: 1px solid #ddd; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+        .cards h3 { margin: 0 0 6px; color: #2c3e50; }
+        .cards p { margin: 0; color: #666; font-size: 14px; }
+        button { background-color: #3498db; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 0; margin-right: 8px; font-size: 16px; }
+        button:hover { background-color: #2980b9; }
+        .btn-hapus { background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 13px; margin-top: 8px; }
+        .btn-hapus:hover { background-color: #c0392b; }
+        .cards { display: flex; justify-content: space-between; align-items: center; }
+
+    </style>
+</head>
+<body>
+    <h1>Aplikasi Todo</h1>
+    
+    <div style="display:flex; gap:8px; margin-bottom:20px">
+        <input
+        type="text"
+        id="inputTugas"
+        placeholder="Ketik tugasmu..."
+        style="flex:1; padding:10px 14px; font-size:15px; border:1px solid #ddd; border-radius:6px; outline:none"
+    >
+    <button id="tambahTugas">Tambah</button>
+    </div>
+    <h3>Daftar Tugas</h3>
+    <hr>
+    <div id="container"></div>
+
+    <script>
+        let users = []
+
+        let container = document.getElementById("container")
+
+        // Fungsi untuk merender user ke dalam container
+        function renderUser(user) {
+           let cardEl = document.createElement("div")
+           cardEl.className = "cards"
+           cardEl.innerHTML = `
+                <p>${user.tugas}</p>
+            `
+
+            // Buat tombol hapus khusus untuk card ini
+            let hapusBtn = document.createElement("button")
+            hapusBtn.textContent = "Hapus"
+            hapusBtn.className = "btn-hapus"
+
+            // Kalau tombol ini diklik, hapus card INI saja
+            hapusBtn.addEventListener("click", function() {
+                cardEl.remove()
+                users.splice(users.indexOf(user), 1)
+            })
+
+            // Masukkan tombol ke dalam card
+            cardEl.appendChild(hapusBtn)
+
+            // Masukkan card ke halaman
+            container.appendChild(cardEl)
+        }
+
+        users.forEach(renderUser)
+
+        // Tombol Tambah
+        document.getElementById("tambahTugas").addEventListener("click", function() {
+            let input = document.getElementById("inputTugas")
+            let tugasBaru = input.value.trim()
+
+            // Validasi sedarhana: pastikan input tidak kosong
+            if (tugasBaru) {
+                let userBaru = { tugas: tugasBaru }
+                users.push(userBaru)
+                renderUser(userBaru)
+                input.value = ""        // kosongkan input setelah tambah
+                input.focus()           // cursor balik ke input otomatis
+            } else {
+                alert("Tulis tugasmu dulu!")
+            }
+        })
+
+        document.getElementById("inputTugas").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                document.getElementById("tambahTugas").click()
+            }
+        })
+
+    </script>
+
+</body>
+</html>
