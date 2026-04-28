@@ -62,13 +62,17 @@
     </div>
 
     <script>
-        let todos = []
+        let tersimpan = localStorage.getItem("todos")
+        let todos = tersimpan ? JSON.parse(tersimpan) : []
 
         // Update counter dan pesan kosong
         const updateUI = () => {
             document.getElementById("counter").textContent = todos.length
             document.getElementById("pesanKosong").style.display =
                 todos.length === 0 ? "block" : "none"
+
+            // Tambahkan baris ini
+            localStorage.setItem("todos", JSON.stringify(todos))
         }
 
         // Render satu todo
@@ -147,9 +151,8 @@
             if (e.key === "Enter") tambahTugas()
         })
     
-        // Inisialisasi
+        todos.forEach((todo) => renderTodo(todo))
         updateUI()
-
     </script>
 
 </body>
