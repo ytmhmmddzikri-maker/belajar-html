@@ -57,14 +57,14 @@
         let todos = []
 
         // Update counter dan pesan kosong
-        function updateUI() {
+        const updateUI = () => {
             document.getElementById("counter").textContent = todos.length
             document.getElementById("pesanKosong").style.display =
                 todos.length === 0 ? "block" : "none"
         }
 
         // Render satu todo
-        function renderTodo(todo) {
+        const renderTodo = (todo) => {
             let card = document.createElement("div")
             card.className = "flex items-center justify-between bg-white px-5 py-4 rounded-xl shadow-sm border border-gray-100"
             card.innerHTML = `
@@ -76,7 +76,7 @@
             hapusBtn.textContent = "Hapus"
             hapusBtn.className = "ml-4 text-xs text-red-400 hover:text-red-600 font-medium transition"
 
-            hapusBtn.addEventListener("click", function() {
+            hapusBtn.addEventListener("click", () => {
                 card.remove()
                 todos.splice(todos.indexOf(todo), 1)
                 updateUI()
@@ -87,7 +87,7 @@
         }
 
         // Tambah tugas
-        function tambahTugas() {
+        const tambahTugas = () => {
             let input = document.getElementById("inputTugas")
             let teks = input.value.trim()
 
@@ -108,7 +108,7 @@
         }
 
         // Hapus semua
-        document.getElementById("hapusSemua").addEventListener("click", function() {
+        document.getElementById("hapusSemua").addEventListener("click", () => {
             if (todos.length === 0) return
             if (confirm("Hapus semua tugas?")) {
                 document.getElementById("container").innerHTML = ""
@@ -120,7 +120,7 @@
         // Event listener
         document.getElementById("tambahTugas").addEventListener("click", tambahTugas)
 
-        document.getElementById("inputTugas").addEventListener("keypress", function(e) {
+        document.getElementById("inputTugas").addEventListener("keypress", (e) => {
             if (e.key === "Enter") tambahTugas()
         })
     
