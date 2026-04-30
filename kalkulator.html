@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalkulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+    <div class="max-w-lg mx-auto mt-16 px-4">
+
+        <!-- Header -->
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">🧮 Kalkulator</h1>
+
+        <div class="flex gap-3 mb-4">
+        <!-- Search -->
+        <input
+            type="text"
+            id="angkaHasil"
+            placeholder="0"
+            class="flex-1 px-4 py-10 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm outline-none focus:ring-2 focus:ring-blue-400 transition"
+        >
+        <button
+            id="reset"
+            class="bg-gray-800 text-white px-4 py-3 rounded-xl w-16">c</button>
+
+        </div>
+        
+
+        <div class="grid grid-cols-4 gap-3 mb-8">
+            <button
+                id="7"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">7</button>
+
+            <button
+                id="8"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">8</button>
+
+
+            <button
+                id="9"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">9</button>
+
+            <button
+                id="/"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">÷</button>
+
+            <button
+                id="4"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">4</button>
+
+
+            <button
+                id="5"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">5</button>
+
+            <button
+                id="6"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">6</button>
+
+            <button
+                id="*"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">×</button>
+
+
+            <button
+                id="1"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">1</button>
+
+            <button
+                id="2"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">2</button>
+
+            <button
+                id="3"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">3</button>
+
+            <button
+                id="-"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">-</button>
+
+            <button
+                id="0"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">0</button>
+
+            <button
+                id="="
+                class="col-span-2 bg-gray-800 text-white px-4 py-3 rounded-xl">=</button>
+
+             <button
+                id="+"
+                class="bg-gray-800 text-white px-4 py-3 rounded-xl">+</button>
+        </div>
+    </div>
+<script>
+    let simbolOperator = {
+        "*": "×",
+        "/": "÷",
+        "+": "+",
+        "-": "-",
+    }
+    let angkaPertama = ""
+    let operator = ""
+    let angkaKedua = ""
+
+    for (let i = 0; i < 10; i++) {  
+        let tombol = document.getElementById(i)
+        tombol.addEventListener("click", () => {
+            if (operator == "") {
+                angkaPertama = angkaPertama + String(i)
+                document.getElementById("angkaHasil").value = angkaPertama
+            } else {
+                angkaKedua = angkaKedua + String(i)
+                document.getElementById("angkaHasil").value = angkaPertama + simbolOperator[operator] + angkaKedua
+            }
+        })
+    }
+
+    let operators = ["+", "-", "*", "/"]
+
+    for (let i = 0; i < operators.length; i++) {
+        let tombol = document.getElementById(operators[i])
+        tombol.addEventListener("click", () => {
+            document.getElementById("angkaHasil").value = angkaPertama + simbolOperator[operators[i]]
+            operator = operators[i]
+            console.log(operator)
+        })
+    }
+
+    let tombolSama = document.getElementById("=")
+    tombolSama.addEventListener("click", () => {
+            if (angkaPertama == "" || (operator == "/" && angkaKedua == "0")) {
+                // jangan ngapa-ngapain
+            } else {
+                let hasil = eval(angkaPertama + operator + angkaKedua)
+                document.getElementById("angkaHasil").value = hasil    
+            }
+    })
+    
+    let tombolHasil = document.getElementById("angkaHasil")
+    let tombolReset = document.getElementById("reset")
+    tombolReset.addEventListener("click", () => {
+    angkaPertama = ""
+    operator = ""
+    angkaKedua = ""
+    tombolHasil.value = ""
+    })
+
+
+</script>
+</body>
+</html>
